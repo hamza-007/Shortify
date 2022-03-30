@@ -1,0 +1,31 @@
+const express = require('express');
+const cors=require('cors');
+const app=express();
+const mongoose = require("mongoose");
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+require("dotenv").config();
+const { requireAuth, checkUser } = require("./middelware/authMiddelware");
+const urlRoutes = require('./routes/urlRoutes');
+const userRoutes = require("./routes/userRoutes");
+const db_con = "mongodb+srv://hamza:123@cluster0.ilmue.mongodb.net/Cluster0";
+
+
+mongoose.connect(db_con,{ useNewUrlParser: true, useUnifiedTopology: true })
+  .then(res=>{console.log("connected to database succesfully");})
+  .catch(err=>{console.log(err)});
+
+app.use(cors());
+app.use(cookieParser());
+app.use(express.urlencoded({extended:true}));
+
+
+app.get('/account', requireAuth, (req, res) => res.redirect('http://localhost:3000/'));
+app.use(userRoutes);
+app.use(urlRoutes);
+
+
+let port = process.env.PORT;
+app.listen(port,()=>{
+    console.log(`server running on port ${port}`);
+});
