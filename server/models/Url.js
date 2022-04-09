@@ -25,8 +25,8 @@ const urlSchema = new mongoose.Schema({
       default : 0
   },
   user_id :{
-    type : Number,
-    required : [true,"error id user"]
+    type : String,
+    
   }
 });
 

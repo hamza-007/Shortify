@@ -10,7 +10,6 @@ const requireAuth = (req, res, next) => {
         console.log(err.message);
         res.redirect('http://localhost:3000');
       } else {
-        console.log(decodedToken);
         next();
       }
     });

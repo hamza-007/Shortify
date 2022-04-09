@@ -2,15 +2,8 @@ const { Router } = require('express');
 const router = Router();
 const urlController = require("../controllers/urlController")
 
-router.get("/:id/urls",urlController.getUrls);
-
-
-
-
-
-
-
-
+router.post("/add/url",urlController.addUrl);
+router.get("/urls",urlController.getUrls);
 
 
 

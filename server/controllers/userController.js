@@ -10,7 +10,6 @@ const createToken = (id) => {
   });
 };
 const handleErrors = (err) => {
-    console.log(err.message, err.code);
     let errors = { email: '', password: '' };
   
     
@@ -43,12 +42,10 @@ const handleErrors = (err) => {
 
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+ let infos = req.body;
   try {
-    const user = await User.create({ email, password });
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    await User.create(infos);
+    res.status(201).redirect("http://localhost:3000/");
   }
   catch(err) {
     const errors = handleErrors(err);
@@ -63,7 +60,7 @@ module.exports.login_post = async (req, res) => {
      const user = await User.login(email, password);
      const token = createToken(user._id);
      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-     res.status(200).json({ user: user._id });
+     res.redirect("http://localhost:3000/");
    } 
    catch (err) {
     const errors = handleErrors(err);
@@ -71,8 +68,23 @@ module.exports.login_post = async (req, res) => {
    }
 
 }
+module.exports.checkUser = async (req,res) =>{
+  token = req.cookies.jwt;
+  if (token){
+    jwt.verify(token, process.env.JWT_SECRET, async(err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.send(null);
+      } else {
+        const id =decodedToken.id
+        const user =await  User.findOne({id})
+        user ? res.send(true) : res.send(null);
+      }
+    });
+  }
+}
 
 module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
-  res.redirect('/');
+  res.redirect('http://localhost:3000/');
 }

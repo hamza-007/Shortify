@@ -6,11 +6,12 @@ export default function Register() {
         <div>
             <div className='login_form'>
                 <form method='POST' action="/register" >
+                    <TextField label="Username" name="username" variant="filled" /><br/><br/>
                     <TextField label="Email" name="email" variant="filled" /><br/><br/>
                     <TextField 
                         label="Password" type="password" name="password" variant="filled" />
                         <br/><br/>
-                    <Button type="submit" variant="outlined">Register</Button>
+                    <Button type="submit" variant="outlined">Sign Up</Button>
                 </form>
             </div>
         </div>

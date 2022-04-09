@@ -5,41 +5,42 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 export default function Home() {
-    const [state, setstate] = useState([]);
-    const [test, settest] = useState('');
-    const [user, setuser] = useState('');
-    const [log, setlog] = useState(null);
-    //axios.defaults.withCredentials = true;
+    const [urls, seturls] = useState([]);
+    const [url, seturl] = useState('');
     useEffect(() => {
      async function getdata(){
-       await axios.get("/account").then(res =>{
-
-       }).catch(err=>{
-         console
-       })
+        await axios.get("http://localhost:5000/urls").then(res=>{
+            seturls(res.data);
+            console.log(res.data);
+        }).catch(err=>{
+          console.log("error getting urls")
+        })
      }
-    }, [])
+     getdata();
+    }, [urls])
     
       
     return (
         <div className='home'>
-          
-          
-            <form method='POST' className='home_form'  action="/add">
-          <TextField label="Url" variant="outlined" placeholder='add a url here...'
-          type="url"
-          value={test} 
-          onChange={
-            (e)=> settest(e.target.value)
-          } className='url_input' name="full" 
-          />   
-          
-          <Button className='btn' disabled={test===""} type="submit" variant="outlined">Shortify</Button>
-      </form><br/><br/>
+            <form method='POST' className='home_form'  action="http://localhost:5000/add/url">
+                  <TextField 
+                      label="Url"
+                      variant="outlined"
+                      placeholder='add a url here...'
+                      type="url"
+                      value={url} 
+                      onChange={
+                        (e)=> seturl(e.target.value)
+                      } 
+                      className='url_input'
+                      name="full" 
+                  />   
+                  <Button className='btn' disabled={url===""} type="submit" variant="outlined">Shortify</Button>
+          </form><br/><br/>
 
       {
         
-        state.length === 0 ?<h5>You Haven't Any Url shortened... </h5>:
+        urls.length === 0 ?<h5>You Haven't Any Url shortened... </h5>:
         <center>
             <table className='url_list'>
                 <thead>
@@ -51,7 +52,7 @@ export default function Home() {
                 </thead>
                 <tbody>
                       {
-                        state.reverse().map((r,k)=>(
+                        urls && urls.reverse().map((r,k)=>(
                             <tr key={k}>
                             <td><a href={r.full}>{r.full}</a></td>
                             <td><a href={`http://localhost:4000/r/${r.short}`}>{r.short}</a></td>
