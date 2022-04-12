@@ -33,7 +33,7 @@ module.exports.getUrls = async (req,res) =>{
         return 
       } 
         const id =decodedToken.id
-        const urls = await Url.find({id})
+        const urls = await Url.find({user_id:id})
         console.log(urls);
         
       

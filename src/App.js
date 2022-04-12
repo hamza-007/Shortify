@@ -6,6 +6,8 @@ import Home from './components/Home';
 import Register from './components/Register';
 import axios from "axios";
 import {useEffect,useState} from 'react'
+
+
 function App() {
   const [user, setuser] = useState(null);
   useEffect(() => {

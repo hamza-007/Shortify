@@ -52,12 +52,12 @@ export default function Home() {
                 </thead>
                 <tbody>
                       {
-                        urls && urls.reverse().map((r,k)=>(
+                        urls.reverse().map((r,k)=>(
                             <tr key={k}>
                             <td><a href={r.full}>{r.full}</a></td>
-                            <td><a href={`http://localhost:4000/r/${r.short}`}>{r.short}</a></td>
+                            <td><a href={`http://localhost:5000/r/${r.short}`}>{r.short}</a></td>
                             <td className='click'>{r.click}</td> 
-                            <td className='del'><a className='del' href={`http://localhost:4000/delete/${r.id}`}>Delete</a></td>
+                            <td className='del'><a className='del' href={`http://localhost:5000/delete/${r.id}`}>Delete</a></td>
                             </tr>
                         ))
                       }

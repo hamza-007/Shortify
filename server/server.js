@@ -3,7 +3,6 @@ const cors=require('cors');
 const app=express();
 const mongoose = require("mongoose");
 var cookieParser = require('cookie-parser')
-app.use(cookieParser())
 require("dotenv").config();
 const urlRoutes = require('./routes/urlRoutes');
 const userRoutes = require("./routes/userRoutes");
