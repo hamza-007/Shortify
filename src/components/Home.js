@@ -1,28 +1,26 @@
 import React from 'react'
 import {useState,useEffect} from 'react';
-import axios from "axios";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
+import axios from "axios";
 export default function Home() {
     const [urls, seturls] = useState([]);
     const [url, seturl] = useState('');
     useEffect(() => {
-     async function getdata(){
-        await axios.get("http://localhost:5000/urls").then(res=>{
-            seturls(res.data);
-            console.log(res.data);
-        }).catch(err=>{
-          console.log("error getting urls")
-        })
-     }
-     getdata();
-    }, [urls])
+      async function getdata(){
+         await axios.get("/urls").then(res=>{
+             seturls(res.data);
+         }).catch(err=>{
+           console.log(err,"\nerror getting urls")
+         })
+      }
+      getdata();
+    }, []);
     
       
     return (
         <div className='home'>
-            <form method='POST' className='home_form'  action="http://localhost:5000/add/url">
+            <form method='POST' className='home_form'  action="/add/url">
                   <TextField 
                       label="Url"
                       variant="outlined"
@@ -52,14 +50,14 @@ export default function Home() {
                 </thead>
                 <tbody>
                       {
-                        urls.reverse().map((r,k)=>(
-                            <tr key={k}>
-                            <td><a href={r.full}>{r.full}</a></td>
-                            <td><a href={`http://localhost:5000/r/${r.short}`}>{r.short}</a></td>
-                            <td className='click'>{r.click}</td> 
-                            <td className='del'><a className='del' href={`http://localhost:5000/delete/${r.id}`}>Delete</a></td>
-                            </tr>
-                        ))
+                         urls && urls.reverse().map((r,k)=>(
+                             <tr key={k}>
+                             <td><a href={r.full}>{r.full}</a></td>
+                             <td><a target="_blank" href={`${process.env.REACT_APP_HOMEPAGE}/click/${r.short}`}>{r.short}</a></td>
+                             <td className='click'>{r.clicks}</td> 
+                             <td className='del'><a className='del' href={`${process.env.REACT_APP_HOMEPAGE}/delete/${r._id}`}>Delete</a></td>
+                             </tr>
+                         )) 
                       }
                   </tbody>
             </table>

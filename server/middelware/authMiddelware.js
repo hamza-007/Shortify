@@ -8,13 +8,13 @@ const requireAuth = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect('http://localhost:3000');
+        res.redirect(process.env.CLIENT_HOMEPAGE);
       } else {
         next();
       }
     });
   } else {
-    res.redirect('http://localhost:3000');
+    res.redirect(process.env.CLIENT_HOMEPAGE);
   }
 };
 
@@ -22,7 +22,7 @@ const requireAuth = (req, res, next) => {
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
         next();

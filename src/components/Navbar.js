@@ -1,17 +1,17 @@
 import React, { useState,useEffect } from 'react'
 import {AppBar,Toolbar,Typography} from '@mui/material';
-import axios from "axios"
+import Cookies from "js-cookie";
+
 export default function Navbar() {
     const [user, setuser] = useState(null);
   useEffect(() => {
-    async function getdata(){
-      await axios.get("/checkuser").then(res=>{
-          setuser(res.data)
-      })
-    }
-  getdata()
+    async function fetchCookies(){
+        const user = Cookies.get(process.env.REACT_APP_COOKIE);
+        setuser(user);
+      }
+      fetchCookies();
     
-  }, [])
+  }, [user])
     return (
         <div className='navbar'>
              <AppBar position="sticky" className="appbar">
@@ -26,7 +26,7 @@ export default function Navbar() {
                         </div>
                         
                              <div className='login_stat'>
-                                 {  user ? <a href="http://localhost:5000/logout">log out</a> : 
+                                 {  user ? <a href={`${process.env.REACT_APP_HOMEPAGE}/logout`}>log out</a> : 
                                  
                                 <>
                                 <a href="/login">Login</a>
@@ -36,10 +36,7 @@ export default function Navbar() {
                                  
                                     
 
-                            </div>
-                            
-                            
-                        
+                            </div>                       
                   </Toolbar>
               </AppBar>
         </div>

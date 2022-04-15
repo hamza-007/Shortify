@@ -6,7 +6,7 @@ export default function Login() {
     return (
        <div className='login'>
             <div className='login_form'>
-                <form method='POST' action='http://localhost:5000/login' >
+                <form method='POST' action="/login" >
                     <TextField label="Email" type="email" name="email" variant="filled" required/><br/><br/>
                     <TextField 
                         label="Password" type="password" name="password" variant="filled" required/>

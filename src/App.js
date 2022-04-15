@@ -4,33 +4,29 @@ import Login from './components/Login';
 import {BrowserRouter, Routes,Route} from "react-router-dom";
 import Home from './components/Home';
 import Register from './components/Register';
-import axios from "axios";
+import Cookies from "js-cookie";
 import {useEffect,useState} from 'react'
 
 
 function App() {
   const [user, setuser] = useState(null);
+
   useEffect(() => {
-    async function getdata(){
-      await axios.get("/checkuser").then(res=>{
-          setuser(res.data)
-      })
-    }
-  getdata()
-    
-  }, [])
+    const user = Cookies.get(process.env.REACT_APP_COOKIE);
+    setuser(user);
+  }, [user])
   
   return (
     <BrowserRouter>
-        <div className="App">
-            <Navbar />
-            <Routes>
-              <Route  path="/" element={user ? <Home /> : <Login />} />
-              <Route  path="/sign_up" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-        </div>
-        </BrowserRouter>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route  path="/" element={user ? <Home /> : <Login />} />
+          <Route  path="/sign_up" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

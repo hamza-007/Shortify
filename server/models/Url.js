@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const gen = ()=>{
+const shortify = ()=>{
     let chars = "0123456789abcdefghijklmnopqrstuvwxyz";
     let string_length = 6;
     let randomstring = 'shortify.';
@@ -32,12 +32,9 @@ const urlSchema = new mongoose.Schema({
 
 
 urlSchema.pre('save', async function(next) {
- this.short = gen();
+ this.short = shortify();
   next();
 });
-
-
-
 
 const Url = mongoose.model('url', urlSchema);
 
