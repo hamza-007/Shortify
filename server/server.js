@@ -10,8 +10,8 @@ const userRoutes = require("./routes/userRoutes");
 
 
 mongoose.connect(process.env.DB_CONFIG,{ useNewUrlParser: true, useUnifiedTopology: true })
-  .then(res=>{console.log("connected to database succesfully");})
-  .catch(err=>{console.log("error connecting to database ")});
+  .then(()=>{console.log("connected to database succesfully");})
+  .catch(err=>{console.log(`error connecting to database  ${err}`)});
 
 
 app.use(cors());

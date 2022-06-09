@@ -3,6 +3,8 @@ import {useState,useEffect} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from "axios";
+
+
 export default function Home() {
     const [urls, seturls] = useState([]);
     const [url, seturl] = useState('');
@@ -15,7 +17,7 @@ export default function Home() {
          })
       }
       getdata();
-    }, []);
+    }, [urls]);
     
       
     return (
