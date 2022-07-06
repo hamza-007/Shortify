@@ -2,25 +2,30 @@ import React from "react";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import axios from "axios";
+import useFetch from "../Hooks/useFetch";
 
 export default function Home() {
   const [urls, seturls] = useState([]);
   const [url, seturl] = useState("");
   const HandleCHange = (e) => seturl(e.target.value);
+  const {data,error,isloading} = useFetch("/urls")
   useEffect(() => {
-    async function fetchUrls() {
-      await axios
-        .get("/urls")
-        .then((res) => {
-          seturls(res.data);
-        })
-        .catch((err) => {
-          return err;
-        });
-    }
-    fetchUrls();
-  }, [urls]);
+    seturls(data)
+  }, [data])
+  
+  // useEffect(() => {
+  //   async function fetchUrls() {
+  //     await axios
+  //       .get("/urls")
+  //       .then((res) => {
+  //         seturls(res.data);
+  //       })
+  //       .catch((err) => {
+  //         return err;
+  //       });
+  //   }
+  //   fetchUrls();
+  // }, [urls]);
 
   return (
     <div className='home'>
@@ -47,7 +52,9 @@ export default function Home() {
       <br />
       <br />
 
-      {urls.length === 0 ? (
+      {urls.length === 0 && isloading  ?  error != null ? (
+        <h5>{error}</h5>
+      ) : (
         <h5>You Haven't Any Url shortened... </h5>
       ) : (
         <center>
