@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 require("dotenv").config();
 
 const requireAuth = (req, res, next) => {
@@ -17,7 +17,6 @@ const requireAuth = (req, res, next) => {
     res.redirect(process.env.CLIENT_HOMEPAGE);
   }
 };
-
 
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -37,6 +36,5 @@ const checkUser = (req, res, next) => {
     next();
   }
 };
-
 
 module.exports = { requireAuth, checkUser };
