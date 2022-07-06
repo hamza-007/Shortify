@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Cookies from "js-cookie";
+import Notfound from "./components/Notfound";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path='/' element={user ? <Home /> : <Login />} />
           <Route path='/sign_up' element={<Register />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/notfound' element={<Notfound />} />
         </Routes>
       </div>
     </BrowserRouter>

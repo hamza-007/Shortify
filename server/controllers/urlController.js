@@ -1,7 +1,16 @@
 const Url = require("../models/Url");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-
+const shortify = () => {
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+  let string_length = 12;
+  let randomstring = "";
+  for (let i = 0; i < string_length; i++) {
+    let rnum = Math.floor(Math.random() * chars.length);
+    randomstring += chars.substring(rnum, rnum + 1);
+  }
+  return randomstring;
+};
 module.exports.addUrl = async (req, res) => {
   token = req.cookies.jwt;
   if (token) {
@@ -9,11 +18,10 @@ module.exports.addUrl = async (req, res) => {
       if (err) {
         res.status(504).send(err.message);
       } else {
-        let user;
         const id = decodedToken.id;
-        user = await User.findOne({ id });
+        let user = await User.findOne({ id });
         let full = req.body.full;
-        await Url.create({ full, user_id: id });
+        await Url.create({ full, short: shortify(), user_id: id });
         res.redirect(process.env.CLIENT_HOMEPAGE);
       }
     });
@@ -46,6 +54,10 @@ module.exports.removeUrl = async (req, res) => {
 module.exports.onClickUrl = async (req, res) => {
   let link = req.params.url;
   const url = await Url.findOne({ short: link });
+  if (!url) {
+    res.redirect(process.env.CLIENT_HOMEPAGE + "/notfound");
+    return;
+  }
   url.clicks++;
   await url.save();
   res.redirect(url.full);

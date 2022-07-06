@@ -7,18 +7,19 @@ import axios from "axios";
 export default function Home() {
   const [urls, seturls] = useState([]);
   const [url, seturl] = useState("");
+  const HandleCHange = (e) => seturl(e.target.value);
   useEffect(() => {
-    async function getdata() {
+    async function fetchUrls() {
       await axios
         .get("/urls")
         .then((res) => {
           seturls(res.data);
         })
         .catch((err) => {
-          console.log(err, "\nerror getting urls");
+          return err;
         });
     }
-    getdata();
+    fetchUrls();
   }, [urls]);
 
   return (
@@ -30,7 +31,7 @@ export default function Home() {
           placeholder='add a url here...'
           type='url'
           value={url}
-          onChange={(e) => seturl(e.target.value)}
+          onChange={HandleCHange}
           className='url_input'
           name='full'
         />
@@ -68,6 +69,7 @@ export default function Home() {
                     <td>
                       <a
                         target='_blank'
+                        rel='noreferrer'
                         href={`${process.env.REACT_APP_HOMEPAGE}/click/${r.short}`}
                       >
                         {r.short}
