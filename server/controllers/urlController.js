@@ -1,16 +1,8 @@
 const Url = require("../models/Url");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const shortify = () => {
-  let chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-  let string_length = 12;
-  let randomstring = "";
-  for (let i = 0; i < string_length; i++) {
-    let rnum = Math.floor(Math.random() * chars.length);
-    randomstring += chars.substring(rnum, rnum + 1);
-  }
-  return randomstring;
-};
+const shortify = require("../helpers/generateUrl");
+
 module.exports.addUrl = async (req, res) => {
   token = req.cookies.jwt;
   if (token) {
@@ -20,8 +12,13 @@ module.exports.addUrl = async (req, res) => {
       } else {
         const id = decodedToken.id;
         let user = await User.findOne({ id });
+        if (!user || !id) {
+          res.redirect(process.env.CLIENT_HOMEPAGE + "/notfound");
+          return;
+        }
         let full = req.body.full;
-        await Url.create({ full, short: shortify(), user_id: id });
+        let short_url = shortify();
+        await Url.create({ full, short: short_url, user_id: id });
         res.redirect(process.env.CLIENT_HOMEPAGE);
       }
     });
@@ -33,7 +30,7 @@ module.exports.getUrls = async (req, res) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
-        res.send("error occured");
+        res.redirect(process.env.CLIENT_HOMEPAGE + "/notfound");
       } else {
         const id = decodedToken.id;
         const urls = await Url.find({ user_id: id });

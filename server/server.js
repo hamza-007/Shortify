@@ -25,9 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(urlRoutes);
 app.use(userRoutes);
-app.use((_,res)=>{
-  res.redirect(process.env.CLIENT_HOMEPAGE+"/notfound")
-})
+app.use((_, res) => {
+  res.redirect(process.env.CLIENT_HOMEPAGE + "/notfound");
+});
 let port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log(`server running on port ${port}`);

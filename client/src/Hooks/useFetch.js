@@ -27,7 +27,7 @@ function useFetch(url) {
           setdata([]);
         }
       } finally {
-        isMounted && setTimeout(() => setisloading(false), 1);
+        isMounted && setTimeout(() => setisloading(false), 2000);
       }
     };
     fetchData(url);
@@ -37,7 +37,7 @@ function useFetch(url) {
     };
 
     return cleanUp;
-  }, [url]);
+  }, [data, url]);
   return { data, error, isloading };
 }
 

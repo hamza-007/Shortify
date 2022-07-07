@@ -11,6 +11,7 @@ export default function Navbar() {
     }
     fetchCookies();
   }, [user]);
+
   return (
     <div className='navbar'>
       <AppBar position='sticky' className='appbar'>

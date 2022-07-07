@@ -8,7 +8,6 @@ export default function Home() {
   const [urls, seturls] = useState([]);
   const [url, seturl] = useState("");
   const HandleCHange = (e) => seturl(e.target.value);
-
   const { data, error, isloading } = useFetch("/urls");
 
   useEffect(() => {
